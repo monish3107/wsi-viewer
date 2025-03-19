@@ -18,8 +18,6 @@ A Whole Slide Image (WSI) viewer application built with React and OpenSeadragon 
 ### Alternate-WSI Branch
 - Direct image viewing without detection overlays
 - Pure OpenSeadragon implementation
-- Simpler interface focused on image navigation
-- Basic zoom and pan controls
 
 ## Features
 
@@ -31,7 +29,6 @@ A Whole Slide Image (WSI) viewer application built with React and OpenSeadragon 
   - Full-screen mode
 - **Navigation Window**: Mini-map for easy navigation
 - **Zoom Level Indicator**: Real-time zoom level display
-- **Responsive Layout**: Adapts to different screen sizes
 
 ## Technology Stack
 
