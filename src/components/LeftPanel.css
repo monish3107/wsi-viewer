@@ -1,0 +1,88 @@
+.left-panel {
+  width: 300px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.panel-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.details-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-value {
+  color: #666;
+}
+
+.platelets-details {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.details-table th,
+.details-table td {
+  border: 1px solid #ccc; /* Consistent border color */
+  padding: 8px;
+  text-align: left;
+}
+
+.details-table th {
+  background-color: #eaeaea; /* Consistent header background */
+  color: #333;
+  font-weight: bold;
+}
+
+.details-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.details-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
