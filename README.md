@@ -40,9 +40,3 @@ A Whole Slide Image (WSI) viewer application built with React and OpenSeadragon 
 - Vite
 - CSS3
 - ESLint
-
-## Getting Started
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/wsi-viewer.git
