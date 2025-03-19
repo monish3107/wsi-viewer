@@ -1,91 +1,76 @@
-import React, { useEffect, useState } from 'react';
+//this is an alternate approach that does not fetch detection results, but uses openseadragon to directly plot the bounding boxes on the image
+import React, { useEffect, useState, useRef } from 'react';
 import OpenSeadragon from 'openseadragon';
+import { detectionResults } from '../data';
 import './WSIViewer.css';
-
 
 const WSIViewer = () => {
   const [zoomLevel, setZoomLevel] = useState(1);
-  const [detectionResults, setDetectionResults] = useState([]);
+  const canvasRef = useRef(null);
+  const viewerRef = useRef(null);
 
   useEffect(() => {
-    fetch('/output.json')
-      .then(response => response.json())
-      .then(data => {
-        const results = data?.inference_results?.output?.detection_results || [];
-        setDetectionResults(results);
-      })
-      .catch(error => console.error('Error:', error));
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const image = new Image();
+    image.src = '/image.png';
+
+    image.onload = () => {
+      // Set canvas size to match image
+      canvas.width = image.width;
+      canvas.height = image.height;
+
+      // Draw image
+      ctx.drawImage(image, 0, 0);
+
+      // Draw RBCs
+      detectionResults.forEach(([x1, y1, x2, y2]) => {
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+      });
+
+      // Initialize OpenSeadragon with the canvas
+      viewerRef.current = OpenSeadragon({
+        id: 'openseadragon1',
+        prefixUrl: 'https://openseadragon.github.io/openseadragon/images/',
+        tileSources: {
+          type: 'legacy-image-pyramid',
+          levels: [{
+            url: canvas.toDataURL(),
+            width: canvas.width,
+            height: canvas.height
+          }]
+        },
+        showNavigator: true,
+        navigatorPosition: 'TOP_RIGHT',
+        showZoomControl: true,
+        showHomeControl: true,
+        showFullPageControl: true,
+        minZoomLevel: 0.1,
+        maxZoomLevel: 100,
+        visibilityRatio: 1.0,
+      });
+
+      viewerRef.current.addHandler('zoom', () => {
+        setZoomLevel(viewerRef.current.viewport.getZoom(true).toFixed(2));
+      });
+    };
+
+    return () => {
+      if (viewerRef.current) {
+        viewerRef.current.destroy();
+      }
+    };
   }, []);
 
-
-
-  //opneseadragon buttons
-  useEffect(() => {
-    const viewer = OpenSeadragon({
-      id: 'openseadragon1',
-      prefixUrl: 'https://openseadragon.github.io/openseadragon/images/',
-      tileSources: {
-        type: 'image',
-        url: '/image.png',
-      },
-      showNavigator: true,
-      showZoomControl: true,
-      showHomeControl: true,
-      showFullPageControl: true,
-      gestureSettingsMouse: {
-        clickToZoom: true,
-      },
-      // zoom inand out
-      minZoomLevel: 0.1,
-      maxZoomLevel: 100,
-      visibilityRatio: 1.0,
-    });
-
-
-    viewer.addHandler('open', () => {
-       //plot boxes
-      if (viewer.source?.dimensions) {
-        const { x: imageWidth, y: imageHeight } = viewer.source.dimensions;
-
-        detectionResults.forEach(([x1, y1, x2, y2, label]) => {
-          const normalizedX1 = x1 / imageWidth;
-          const normalizedY1 = y1 / imageHeight;
-          const normalizedWidth = (x2 - x1) / imageWidth;
-          const normalizedHeight = (y2 - y1) / imageHeight;
-
-          const overlayElement = document.createElement('div');
-          overlayElement.className = 'bounding-box';
-          overlayElement.title = label;
-
-          viewer.addOverlay({
-            element: overlayElement,
-            location: new OpenSeadragon.Rect(
-              normalizedX1,
-              normalizedY1,
-              normalizedWidth,
-              normalizedHeight
-            ),
-          });
-        });
-      }
-    });
-
-    viewer.addHandler('zoom', () => {
-      setZoomLevel(viewer.viewport.getZoom(true).toFixed(2));
-    });
-
-    return () => viewer.destroy();
-  }, [detectionResults]);
-
-
-  
   return (
     <div className="wsi-viewer-container">
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
       <div id="openseadragon1" className="wsi-viewer"></div>
-      <div id="navigator" className="wsi-navigator" style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10, background: 'transparent' }}></div>
       <div className="zoom-level-indicator">
         Zoom Level: {zoomLevel}x
-      </div>  
+      </div>
     </div>
   );
 };
