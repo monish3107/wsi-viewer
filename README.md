@@ -1,16 +1,42 @@
-<<<<<<< HEAD
-# React + Vite
+# WSI Viewer - Alternate approach that uses Direct image viewing without detection overlays using OpenSeadragon implementation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Whole Slide Image (WSI) viewer application built with React and OpenSeadragon for viewing and analyzing blood sample images with detection results.
 
-Currently, two official plugins are available:
+## Live Demos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Main Version (with detection results)**: [wsislider.netlify.app](https://wsislider.netlify.app/)
+- **Alternative Version**: [alt-wsi-slider.netlify.app](https://alt-wsi-slider.netlify.app/)
 
-## Expanding the ESLint configuration
+## Branches
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# wsi-viewer
->>>>>>> 0cfff771357c9fdce5340ab75cc1d7cfd75073e9
+### Alternate-WSI Branch
+- Direct image viewing without detection overlays
+- Pure OpenSeadragon implementation
+- Simpler interface focused on image navigation
+- Basic zoom and pan controls
+
+### Main Branch
+- Implements detection result visualization from `output.json`
+- Displays bounding boxes for detected RBCs
+- Shows detailed sample analysis in left panel
+- Features zoom controls and navigation
+
+
+## Features
+
+- **OpenSeadragon Integration**: High-performance viewing of large medical images
+- **Interactive Controls**: 
+  - Zoom in/out
+  - Pan
+  - Reset view
+  - Full-screen mode
+- **Navigation Window**: Mini-map for easy navigation
+- **Zoom Level Indicator**: Real-time zoom level display
+
+## Technology Stack
+
+- React
+- OpenSeadragon
+- Vite
+- CSS3
+- ESLint
